@@ -33,7 +33,7 @@ public class FractalExplorer {
         JLabel lbl = new JLabel("Fractal:");
 
         image = new JImageDisplay(sizeDisp, sizeDisp);
-        image.addMouseListener(new MouseHandler());
+        image.addMouseListener(new MouseListener());
 
         box = new JComboBox();
         box.addItem(new Mandelbrot());
@@ -88,7 +88,7 @@ public class FractalExplorer {
         }
     }
 
-    public class MouseHandler extends MouseAdapter {
+    public class MouseListener extends MouseAdapter {
         @Override
         public void mouseClicked(MouseEvent e) {
             double xCoord = FractalGenerator.getCoord(range.x, range.x + range.width, sizeDisp, e.getX());

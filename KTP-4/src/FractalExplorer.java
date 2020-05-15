@@ -20,13 +20,12 @@ public class FractalExplorer {
     }
     public void createAndShowGUI(){
         JFrame frame = new JFrame("Fractal Explorer");
-        image = new JImageDisplay(sizeDisp, sizeDisp);
         JButton Button = new JButton("Reset");
 
-        ActionHandler aHandler = new ActionHandler();
-        MouseHandler mHandler = new MouseHandler();
-        Button.addActionListener(aHandler);
-        image.addMouseListener(mHandler);
+        image = new JImageDisplay(sizeDisp, sizeDisp);
+        image.addMouseListener(new MouseListener());
+
+        Button.addActionListener(new ActionHandler());
 
         frame.setLayout(new java.awt.BorderLayout());
         frame.add(image, java.awt.BorderLayout.CENTER);
@@ -43,7 +42,7 @@ public class FractalExplorer {
             drawFractal();
         }
     }
-    public class MouseHandler extends MouseAdapter {
+    public class MouseListener extends MouseAdapter {
         @Override
         public void mouseClicked(MouseEvent e) {
             double xCoord = FractalGenerator.getCoord(range.x,
