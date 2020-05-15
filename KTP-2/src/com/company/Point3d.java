@@ -1,7 +1,6 @@
 package com.company;
 
 public class Point3d {
-
     private double xCoord;
     private double yCoord;
     private double zCoord;
@@ -41,6 +40,4 @@ public class Point3d {
     public double distanceTo(Point3d another) {
         return Math.sqrt(Math.pow(xCoord - another.xCoord, 2) + Math.pow(yCoord - another.yCoord, 2) + Math.pow(zCoord - another.zCoord, 2));
     }
-
-
 }
