@@ -3,16 +3,10 @@ import java.io. *;
 import java.util. *;
 
 public class MySocket {
+    public static final String URL_PREFIX = "<a href=\"http";
     private int port;
     private String host;
     Socket my_socket;
-    LinkedList <URLDepthPair> myList = new LinkedList <URLDepthPair>();
-    LinkedList <URLDepthPair> resultLink = new LinkedList <URLDepthPair>();
-    public static void showResult(LinkedList<URLDepthPair> resultLink){
-
-    }
-
-
 
     public MySocket(String host,int port){
         try {
