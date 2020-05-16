@@ -3,7 +3,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class URLDepthPair {
-    public URL URL;
+    public String URL;
     public int dept;
 
     public URLDepthPair (String URL, int dept){
@@ -12,8 +12,9 @@ public class URLDepthPair {
     }
 
 
-    public String getHost(){
-        return this.URL.getHost();
+    public String getHost() throws MalformedURLException {
+        URL host = new URL(URL);
+        return host.getHost();
     }
 
     public int getDepth() {
