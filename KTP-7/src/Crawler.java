@@ -26,7 +26,7 @@ public class Crawler {
             URLDepthPair currentPair = findLink.removeFirst();
             int dept = currentPair.getDepth();
 
-            Socket my_socket =new Socket(currentPair.getURL(), 80)
+            Socket my_socket =new Socket(currentPair.getHost(), 80)
 
 
 
