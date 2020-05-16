@@ -18,17 +18,56 @@ public class Crawler {
             System.out.println("Depth : "+c.getDepth() + "\tLink : "+c.toString());
     }
 
+    public void getInputStream(Socket my_socket) throws IOException {
+        BufferedReader in = new BufferedReader(new InputStreamReader(my_socket.getInputStream()));
+    }
 
+    public void getOutputStream(Socket my_socket) throws IOException {
+        PrintWriter out = new PrintWriter (my_socket.getOutputStream(),true);
+    }
 
-    public void Process(URLDepthPair pair) throws IOException {
+    public static void request(PrintWriter out,URLDepthPair pair) throws MalformedURLException {
+        out.println("GET " + pair.getPath() + " HTTP/1.1");
+        out.println("Host: " + pair.getHost());
+        out.println("Connection: close");
+        out.println();
+        out.flush();
+    }
+
+    public void Process(URLDepthPair pair,int maxDept) throws IOException {
         findLink.add(pair);
         while (!findLink.isEmpty()){
             URLDepthPair currentPair = findLink.removeFirst();
-            int dept = currentPair.getDepth();
+            Socket my_socket =new Socket(currentPair.getHost(), 80);
+            my_socket.setSoTimeout(1000);
+            BufferedReader in = new BufferedReader(new InputStreamReader(my_socket.getInputStream()));
+            PrintWriter out = new PrintWriter (my_socket.getOutputStream(),true);
+            request(out, currentPair);
+            String line=in.readLine();
+            while(line!=null){
+                if(currentPair.test(line,maxDept)){
+                    boolean isLinkFound = false;
+                    StringBuilder currentLink = new StringBuilder();
+                    char c = line.charAt(line.indexOf(currentPair.URL_PREFIX)+9);
+                    currentLink.append(c);
+                    for (int i = line.indexOf(currentPair.URL_PREFIX) + 10; c != '"'; i++) {
+                        c = line.charAt(i);
+                        if (c == '"')
+                            isLinkFound = true;
+                        else
+                            currentLink.append(c);
+                    }
+                    if (isLinkFound) {
+                        URLDepthPair newPair = new URLDepthPair(currentLink.toString(), depth + 1);
+                        if (check(findLink, newPair)) {
+                            findLink.add(newPair);
+                        }
+                    }
 
-            Socket my_socket =new Socket(currentPair.getHost(), 80)
 
+                }
 
+            }
 
         }
 
