@@ -1,15 +1,20 @@
 import java.net. *;
 import java.io. *;
+import java.util. *;
 
-public class Socet {
+public class MySocket {
     private int port;
     private String host;
     Socket my_socket;
+    LinkedList <URLDepthPair> myList = new LinkedList <URLDepthPair>();
+    LinkedList <URLDepthPair> resultLink = new LinkedList <URLDepthPair>();
+    public static void showResult(LinkedList<URLDepthPair> resultLink){
+
+    }
 
 
 
-
-    public Socet(String host,int port){
+    public MySocket(String host,int port){
         try {
             my_socket =new Socket(host, port);
         } catch (IOException e) {
@@ -32,6 +37,10 @@ public class Socet {
     }
 
     public OutputStream getOutputStream(){
+        try {
+            PrintWriter out = new PrintWriter (my_socket.getOutputStream(),true);
+        } catch (IOException e) {
+        }
 
     }
 
