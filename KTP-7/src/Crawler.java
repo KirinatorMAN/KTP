@@ -13,6 +13,15 @@ public class Crawler {
 //        System.out.println("Links visited: " + m_Processed.size());
 //    }
 
+//    public static boolean check(LinkedList<URLDepthPair> viewedLink,URLDepthPair pair)
+//    {
+//        boolean isAlready = true;
+//        for (URLDepthPair c : viewedLink)
+//            if (c.toString().equals(pair.toString()))
+//                isAlready=false;
+//        return isAlready;
+//    }
+
     public static void getSites(LinkedList<URLDepthPair> viewedLink){
         for (URLDepthPair c : viewedLink)
             System.out.println("Depth : "+c.getDepth() + "\tLink : "+c.toString());
@@ -34,7 +43,7 @@ public class Crawler {
         out.flush();
     }
 
-    public void Process(URLDepthPair pair,int maxDept) throws IOException {
+    public void Process(URLDepthPair pair,int maxDepth) throws IOException {
         findLink.add(pair);
         while (!findLink.isEmpty()){
             URLDepthPair currentPair = findLink.removeFirst();
@@ -45,23 +54,25 @@ public class Crawler {
             request(out, currentPair);
             String line=in.readLine();
             while(line!=null){
-                if(currentPair.test(line,maxDept)){
-                    boolean isLinkFound = false;
+                if(currentPair.test(line,maxDepth)){
                     StringBuilder currentLink = new StringBuilder();
-                    char c = line.charAt(line.indexOf(currentPair.URL_PREFIX)+9);
-                    currentLink.append(c);
-                    for (int i = line.indexOf(currentPair.URL_PREFIX) + 10; c != '"'; i++) {
-                        c = line.charAt(i);
-                        if (c == '"')
-                            isLinkFound = true;
-                        else
-                            currentLink.append(c);
+                    char c = line.charAt(line.indexOf(currentPair.URL_PREFIX)+8);
+//                    currentLink.append(c);
+                    for (int i = line.indexOf(currentPair.URL_PREFIX) + 9; c != '"'; i++) {
+//                        c = line.charAt(i);
+//                        if (c == '"')
+//                            isLinkFound = true;
+//                        else
+                            currentLink.append(line.charAt(i));
                     }
-                    if (isLinkFound) {
-                        URLDepthPair newPair = new URLDepthPair(currentLink.toString(), depth + 1);
-                        if (check(findLink, newPair)) {
-                            findLink.add(newPair);
-                        }
+//                    if (isLinkFound) {
+                        currentPair.depth+=1;
+                        currentPair.URL=currentLink.toString();
+
+//                        URLDepthPair newPair = new URLDepthPair(currentLink.toString(), (currentPair.depth + 1));
+                        if (currentPair.check(findLink, currentPair)) {
+                            findLink.add(currentPair);
+//                        }
                     }
 
 

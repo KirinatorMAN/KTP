@@ -3,13 +3,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class URLDepthPair {
-    public String URL;
-    public int dept;
     public static final String URL_PREFIX = "<a href=\"http";
 
-    public URLDepthPair (String URL, int dept){
+    public String URL;
+    public int depth;
+
+    public URLDepthPair (String URL, int depth){
         this.URL=URL;
-        this.dept=dept;
+        this.depth=depth;
     }
 
 
@@ -17,18 +18,16 @@ public class URLDepthPair {
         URL host = new URL(URL);
         return host.getHost();
     }
-
     public String getPath() throws MalformedURLException {
         URL path = new URL(URL);
         return path.getPath();
     }
-
     public int getDepth() {
-        return dept;
+        return depth;
     }
 
-    public boolean test(String line,int maxDept){
-       return (line.indexOf(URL_PREFIX)>0 && dept<maxDept);
+    public boolean test(String line,int maxDepth){
+       return (line.indexOf(URL_PREFIX)>0 && depth<maxDepth);
     }
 
     public static boolean check(LinkedList<URLDepthPair> resultLink, URLDepthPair pair) {
