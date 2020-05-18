@@ -24,41 +24,50 @@ public class Crawler {
     }
 
     public static void Process(String pair, int maxDepth) throws IOException {
-        findLink.add(new URLDepthPair(pair,0));
-        while (!findLink.isEmpty()){
-            URLDepthPair currentPair = findLink.removeFirst();
-            Socket my_socket =new Socket(currentPair.getHost(), 80);
-            my_socket.setSoTimeout(1000);
-            BufferedReader in = new BufferedReader(new InputStreamReader(my_socket.getInputStream()));
-            PrintWriter out = new PrintWriter (my_socket.getOutputStream(),true);
-            request(out, currentPair);
-            String line;
-            if (currentPair.testdepth(maxDepth))
-            while((line=in.readLine())!=null){
-                if(currentPair.testline(line)){
-                    StringBuilder currentLink = new StringBuilder();
-                    for (int i = line.indexOf(currentPair.URL_PREFIX) + 9; line.charAt(i) != '"'; i++) {
-                            currentLink.append(line.charAt(i));
+        try {
+            findLink.add(new URLDepthPair(pair, 0));
+            while (!findLink.isEmpty()) {
+                URLDepthPair currentPair = findLink.removeFirst();
+                if (currentPair.depth<maxDepth){
+                    Socket my_socket = new Socket(currentPair.getHost(), 80);
+                my_socket.setSoTimeout(1000);
+                BufferedReader in = new BufferedReader(new InputStreamReader(my_socket.getInputStream()));
+                PrintWriter out = new PrintWriter(my_socket.getOutputStream(), true);
+                request(out, currentPair);
+                String line;
+                    while ((line = in.readLine()) != null) {
+                        if (line.indexOf(currentPair.URL_PREFIX)!=-1) {
+                            StringBuilder currentLink = new StringBuilder();
+                            for (int i = line.indexOf(currentPair.URL_PREFIX) + 9; line.charAt(i) != '"'; i++) {
+                                currentLink.append(line.charAt(i));
+                            }
+                            URLDepthPair newPair = new URLDepthPair(currentLink.toString(), currentPair.depth + 1);
+                            if (currentPair.check(findLink, newPair) && currentPair.check(viewedLink, newPair) && !currentPair.URL.equals(newPair.URL))
+                                findLink.add(newPair);
+
+                        }
                     }
-                    URLDepthPair newPair = new URLDepthPair(currentLink.toString(), currentPair.depth + 1);
-                    if (currentPair.check(findLink, newPair) && currentPair.check(viewedLink, newPair) && !currentPair.URL.equals(newPair.URL))
-                        findLink.add(newPair);
-
+                my_socket.close();
                 }
-            }
-            my_socket.close();
-            viewedLink.add(currentPair);
-        }
-        showResult(viewedLink);
-    }
 
+                viewedLink.add(currentPair);
+            }
+            showResult(viewedLink);
+        } catch (NullPointerException e) {
+            System.out.println("Not Link");
+        }
+    }
     public static void main(String[] args) {
 
 
-        String[] arg = new String[]{"http://government.ru/","1"};
+        String[] arg = new String[]{"http://government.ru/","2"};
             try {
-                Process(arg[0], Integer.parseInt(arg[1]));
-            } catch (NumberFormatException | IOException e) {
+                try {
+                    Process(arg[0], Integer.parseInt(arg[1]));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } catch (NumberFormatException e) {
                 System.out.println("usage: java Crawler <URL><depth>");
             }
     }
