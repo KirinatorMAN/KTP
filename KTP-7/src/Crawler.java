@@ -23,7 +23,6 @@ public class Crawler {
     }
 
     public static void Process(String pair, int maxDepth) throws IOException {
-        try {
             findLink.add(new URLDepthPair(pair, 0));
             while (!findLink.isEmpty()) {
                 URLDepthPair currentPair = findLink.removeFirst();
@@ -52,21 +51,14 @@ public class Crawler {
                 viewedLink.add(currentPair);
             }
             showResult(viewedLink);
-        } catch (NullPointerException e) {
-            System.out.println("Not Link");
-        }
     }
     public static void main(String[] args) {
 
 
-        String[] arg = new String[]{"http://government.ru/","2"};
+        String[] arg = new String[]{"http://htmlbook.ru/","3"};
             try {
-                try {
                     Process(arg[0], Integer.parseInt(arg[1]));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException | IOException e) {
                 System.out.println("usage: java Crawler <URL><depth>");
             }
     }
