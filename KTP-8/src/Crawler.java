@@ -15,7 +15,7 @@ public class Crawler {
     }
     public static void main(String[] args)
     {
-        args = new String[]{"http://htmlbook.ru/", "3", "3"};
+        args = new String[]{"http://htmlbook.ru/", "3", "1"};
         if (args.length == 3&&checkDigit(args[1])&&checkDigit(args[2]))
         {
             String lineUrl = args[0];
