@@ -40,7 +40,7 @@ public class Crawler {
                             currentLink.append(line.charAt(i));
                     }
                     URLDepthPair newPair = new URLDepthPair(currentLink.toString(), currentPair.depth + 1);
-                    if (currentPair.check(findLink, newPair) && currentPair.check(viewedLink, newPair))
+                    if (currentPair.check(findLink, newPair) && currentPair.check(viewedLink, newPair) && !currentPair.URL.equals(newPair.URL))
                         findLink.add(newPair);
 
                 }
