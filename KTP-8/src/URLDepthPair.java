@@ -35,7 +35,7 @@ public class URLDepthPair {
     public static boolean check(LinkedList<URLDepthPair> resultLink, URLDepthPair pair) {
         boolean isAlready = true;
         for (URLDepthPair c : resultLink)
-            if (c.toString().equals(pair.toString()))
+            if (c.getURL().equals(pair.getURL()))
                 isAlready=false;
         return isAlready;
     }
