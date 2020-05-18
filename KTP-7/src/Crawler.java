@@ -60,7 +60,7 @@ public class Crawler {
     public static void main(String[] args) {
 
 
-        String[] arg = new String[]{"http://government.ru/","2"};
+        String[] arg = new String[]{"http://government.ru/","1"};
             try {
                 try {
                     Process(arg[0], Integer.parseInt(arg[1]));
