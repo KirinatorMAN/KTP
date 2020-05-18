@@ -29,7 +29,6 @@ public class CrawlerTask implements Runnable{
     @Override
     public void run(){
         while (true){
-//            try {
                 URLDepthPair currentPair = urlPool.getPair();
                 try{
                     Socket my_socket = new Socket(currentPair.getHost(), 80);
@@ -46,11 +45,6 @@ public class CrawlerTask implements Runnable{
                     my_socket.close();
                 }
                 catch (IOException e) {}
-//            }
-//            catch (NullPointerException e)
-//            {
-//            }
-
         }
     }
 }
