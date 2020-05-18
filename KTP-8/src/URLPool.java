@@ -28,9 +28,7 @@ public class URLPool {
             }
             cWait--;
         }
-        // Чекнуть!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        URLDepthPair nextPair = findLink.getFirst();
-        findLink.removeFirst();
+        URLDepthPair nextPair = findLink.removeFirst();
         return nextPair;
     }
 
