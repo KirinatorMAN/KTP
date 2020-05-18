@@ -26,8 +26,12 @@ public class URLDepthPair {
         return depth;
     }
 
-    public boolean test(String line,int maxDepth){
-       return (line.indexOf(URL_PREFIX)>0 && depth<maxDepth);
+    public boolean testline(String line){
+       return (line.indexOf(URL_PREFIX)!=-1);
+    }
+
+    public boolean testdepth(int maxDepth){
+        return (depth<maxDepth);
     }
 
     public static boolean check(LinkedList<URLDepthPair> resultLink, URLDepthPair pair) {

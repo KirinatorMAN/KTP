@@ -33,8 +33,9 @@ public class Crawler {
             PrintWriter out = new PrintWriter (my_socket.getOutputStream(),true);
             request(out, currentPair);
             String line;
+            if (currentPair.testdepth(maxDepth))
             while((line=in.readLine())!=null){
-                if(currentPair.test(line,maxDepth)){
+                if(currentPair.testline(line)){
                     StringBuilder currentLink = new StringBuilder();
                     for (int i = line.indexOf(currentPair.URL_PREFIX) + 9; line.charAt(i) != '"'; i++) {
                             currentLink.append(line.charAt(i));
@@ -61,6 +62,4 @@ public class Crawler {
                 System.out.println("usage: java Crawler <URL><depth>");
             }
     }
-
-
 }
