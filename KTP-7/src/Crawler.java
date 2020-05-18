@@ -8,10 +8,9 @@ public class Crawler {
     static LinkedList <URLDepthPair> viewedLink = new LinkedList <URLDepthPair>();
 
 
-    public static void showResult(LinkedList<URLDepthPair> viewedLink)
-    {
+    public static void showResult(LinkedList<URLDepthPair> viewedLink) {
         for (URLDepthPair c : viewedLink)
-            System.out.println("Depth : "+c.getDepth() + "\tLink : "+c.toString());
+            System.out.println("Depth : "+c.getDepth() + "\tLink : "+c.getURL());
     }
 
 
@@ -30,11 +29,11 @@ public class Crawler {
                 URLDepthPair currentPair = findLink.removeFirst();
                 if (currentPair.depth<maxDepth){
                     Socket my_socket = new Socket(currentPair.getHost(), 80);
-                my_socket.setSoTimeout(1000);
-                BufferedReader in = new BufferedReader(new InputStreamReader(my_socket.getInputStream()));
-                PrintWriter out = new PrintWriter(my_socket.getOutputStream(), true);
-                request(out, currentPair);
-                String line;
+                    my_socket.setSoTimeout(100000);
+                    BufferedReader in = new BufferedReader(new InputStreamReader(my_socket.getInputStream()));
+                    PrintWriter out = new PrintWriter(my_socket.getOutputStream(), true);
+                    request(out, currentPair);
+                    String line;
                     while ((line = in.readLine()) != null) {
                         if (line.indexOf(currentPair.URL_PREFIX)!=-1) {
                             StringBuilder currentLink = new StringBuilder();
@@ -47,7 +46,7 @@ public class Crawler {
 
                         }
                     }
-                my_socket.close();
+                    my_socket.close();
                 }
 
                 viewedLink.add(currentPair);
@@ -60,7 +59,7 @@ public class Crawler {
     public static void main(String[] args) {
 
 
-        String[] arg = new String[]{"http://government.ru/","1"};
+        String[] arg = new String[]{"http://government.ru/","2"};
             try {
                 try {
                     Process(arg[0], Integer.parseInt(arg[1]));
