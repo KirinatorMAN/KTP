@@ -4,7 +4,7 @@ public class Crawler {
     public static void showResult(LinkedList<URLDepthPair> resultLink)
     {
         for (URLDepthPair c : resultLink)
-            System.out.println("Depth :" + c.getDepth()+"\tLink :"+c.toString());
+            System.out.println("Depth :" + c.getDepth()+"\tLink :"+c.getURL());
     }
     public static boolean checkDigit(String line)
     {
@@ -15,7 +15,7 @@ public class Crawler {
     }
     public static void main(String[] args)
     {
-        args = new String[]{"http://htmlbook.ru/", "1", "3"};
+        args = new String[]{"http://htmlbook.ru/", "3", "3"};
         if (args.length == 3&&checkDigit(args[1])&&checkDigit(args[2]))
         {
             String lineUrl = args[0];
