@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,59 +39,68 @@ public class task3 {
         return m.matches();
     }
 
-    public static int same(int[] arr1, int[] arr2){
-//        int dick=0;
-//        for(int i=0;i<arr1.length;i++)
-//            if (arr1[i]==)
+    public static boolean same(int[] arr1, int[] arr2){
+        int uniqueValue=0;
         Arrays.sort(arr1);
         Arrays.sort(arr2);
-        int count=0;
-        for(int i=0; i<arr1.length-1;i++){
-            for (int j=i+1;j<arr1.length-1;j++){
-                if (arr1[i]==arr1[j]){
-                    count+=1;
-                    if (arr1[i]==arr1[j+1]){
+        int maxLength = Math.max(arr1.length - 1, arr2.length - 1);
+        for (int i = 0; i<maxLength;i++){
+            if (i<arr1.length-1)
+                if (Arrays.binarySearch(arr1,i+1,arr1.length-1,arr1[i])<0)
+                    uniqueValue++;
+            if (i<arr2.length-1)
+                if (Arrays.binarySearch(arr2,i+1,arr2.length-1,arr2[i])<0)
+                    uniqueValue--;
+        }
+        uniqueValue += arr1.length==1 ? 1 : arr1[arr1.length-2]!=arr1[arr1.length-1] ? 1:0;//checks last element
+        uniqueValue -= arr2.length==1 ? 1 : arr2[arr2.length-2]!=arr2[arr2.length-1] ? 1:0;
+        return uniqueValue==0;
+    }
 
-                        if(j+1==arr1.length-1){
-                            count+=1;
-                        }
-                        i=j+1;
-                    }
+    public static boolean isKaprekar(int a){
+        String s1 = Integer.toString(a * a).substring(0, Integer.toString(a * a).length() / 2);
+        int a2 = Integer.parseInt(Integer.toString(a * a).substring(Integer.toString(a * a).length() / 2));
+
+        if (s1.length() == 0)
+            return a2 ==a;
+        else
+            return Integer.parseInt(s1)+ a2 ==a;
+    }
+
+    public static String longestZero(String a){
+        StringBuilder result=new StringBuilder();
+        while (a.indexOf(result+"0")!=-1)
+            result.append("0");
+        return result.toString();
+    }
+
+    public static int nextPrime(int a){
+        for(int i=a;true;){
+            for(int j=2;j<i;j++){
+                if(i%j==0) {
+                    i++;
+                    j = 2;
                 }
             }
+            return i;
         }
-        return count;
     }
 
-    public static boolean isValid(String a){
-        if (a.length() > 5)
-            return false;
-        for (int i = 0; i < a.length(); i++){
-            if (!Character.isDigit(a.charAt(i)))
-                return false;
-        }
-        return true;
-    }
-
-    public static boolean isStrangePair(String a, String b){
-        return a.charAt(a.length()-1)==b.charAt(0) && b.charAt(b.length()-1)==a.charAt(0);
-    }
-
-    public static boolean isPrefix(String word, String pr){
-        return word.startsWith(pr.substring(0, pr.length() - 2));
-    }
-
-    public static boolean isSuffix(String word, String su){
-
-        return word.endsWith(su.substring(1));
-    }
-
-    public static int boxSeq(int n){
-        if (n%2==0)
-            return n;
+    public static boolean rightTriangle(int x, int y, int z){
+        int max = Math.max(x,Math.max(y,z));
+        int m1=0;
+        int m2=0;
+        if (max==x)
+            m1=y;
+        else if (max==y)
+            m1=z;
         else
-            return n+2;
+            m1=x;
+        m2=x+y+z-max-m1;
+      return max*max==m1*m1+m2*m2;
     }
+
+
 
     public static void main(String[] args) {
         System.out.println(solutions(1, 0, -1));
@@ -98,12 +108,11 @@ public class task3 {
         System.out.println(checkPerfect(6));
         System.out.println(flipEndChars("Cat, dog, and mouse."));
         System.out.println(isValidHexCode("#CD5C5C"));
-        System.out.println(same(new int[] {4,5,6,4,8,9,4}));
-        System.out.println(isValid("59001"));
-        System.out.println(isStrangePair("ratio", "orator"));
-        System.out.println(isPrefix("automation", "auto-"));
-        System.out.println(isSuffix("arachnophobia", "-phobia"));
-        System.out.println(boxSeq(0));
+        System.out.println(same(new int[] {1, 3, 4, 4, 4},new int[] {2, 5, 7}));
+        System.out.println(isKaprekar(3));
+        System.out.println(longestZero("01100001011000"));
+        System.out.println(nextPrime(12));
+        System.out.println(rightTriangle(3, 4, 5));
 
     }
 }
