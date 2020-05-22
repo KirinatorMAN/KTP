@@ -26,7 +26,6 @@ public class task3 {
     }
 
     public static String flipEndChars(String a){
-//        a.charAt(a.length()-1)==b.charAt(0) && b.charAt(b.length()-1)==a.charAt(0)
         if(a.length()<2) return"Incompatible.";
         if(a.charAt(a.length()-1)==a.charAt(0)) return "Two's a pair.";
         return a.charAt(a.length()-1)+a.substring(1,a.length()-1)+a.charAt(0);
